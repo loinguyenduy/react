@@ -11,17 +11,24 @@ class MyComponent extends React.Component {
     age: 21,
   };
 
-  info = {
-    name: "HoidanIT",
-    address: "Hanoi",
-    age: 26,
-  };
+  //handle event
+  handleClick(event) {
+    // console.log("Clicked me!")
+    console.log("My name is: ", this.state.name)
+  }
+
+  handleOnMouseOver(event) {
+    console.log(event);
+  }
   //JSX: Viết code JS trong code của HTML
   render() {
     return (
       <div>
-        My name is {this.state.name} and I come from {this.state.address} 
-        My name is {this.info.name} and I come from {this.info.address} 
+        My name is {this.state.name} and I come from {this.state.address}
+        <br></br>
+        <button onMouseOver={this.handleOnMouseOver}>Click over me</button>
+        <br></br>
+        <button onClick={this.handleClick}>Click me</button>
       </div>
     );
   }
