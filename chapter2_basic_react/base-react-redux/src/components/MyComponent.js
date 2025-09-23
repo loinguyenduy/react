@@ -49,8 +49,13 @@ class MyComponent extends React.Component {
         <br></br>
         <button onClick={this.handleClick}>Click me</button>
 
-        <form onSubmit={(event) => this.handleOnSubmit(event)}>
+        {/* onSubmit: handle event when user click submit or enter
+            onChange: handle event user enter input
+            preventDefault(): prevent reloading page */}
+        <form onSubmit={(event) => this.handleOnSubmit(event)}> 
           <input 
+          // fill name of state automatically
+          value={this.state.name} 
           type="text"
           onChange={(event) => this.handleOnChange(event)}
           ></input>
