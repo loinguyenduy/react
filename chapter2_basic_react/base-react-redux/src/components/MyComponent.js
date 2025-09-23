@@ -27,6 +27,18 @@ class MyComponent extends React.Component {
   handleOnMouseOver(event) {
     console.log(event);
   }
+
+  //Video 21
+  handleOnChange = (event) => {
+    this.setState({
+      name: event.target.value
+    })
+  }
+
+  handleOnSubmit = (event) => {
+    event.preventDefault() //prevent reload page when submitting
+    console.log(this.state)
+  }
   //JSX: Viết code JS trong code của HTML
   render() {
     return (
@@ -36,6 +48,14 @@ class MyComponent extends React.Component {
         <button onMouseOver={this.handleOnMouseOver}>Click over me</button>
         <br></br>
         <button onClick={this.handleClick}>Click me</button>
+
+        <form onSubmit={(event) => this.handleOnSubmit(event)}>
+          <input 
+          type="text"
+          onChange={(event) => this.handleOnChange(event)}
+          ></input>
+          <button>Submit</button>
+        </form>
       </div>
     );
   }
