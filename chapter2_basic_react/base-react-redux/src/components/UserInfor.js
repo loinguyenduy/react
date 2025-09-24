@@ -53,7 +53,10 @@ class UserInfor extends React.Component {
         <button onMouseOver={this.handleOnMouseOver}>Click over me</button>
         <br></br>
         <button onClick={this.handleClick}>Click me</button>
-        {/* onSubmit: handle event when user click submit or enter
+        {/* 
+            onMouseOver: handle event that hover over button
+            onClick: handle event that click to button
+            onSubmit: handle event when user click submit or enter
             onChange: handle event user enter input
             preventDefault(): prevent reloading page */}
 
