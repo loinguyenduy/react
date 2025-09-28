@@ -2,7 +2,7 @@
 // function component
 
 import React from "react";
-import UserInfor from "./UserInfor";
+import AddUserInfor from "./AddUserInfor";
 import DisplayInfor from "./DisplayInfor";
 
 class MyComponent extends React.Component {
@@ -14,14 +14,24 @@ class MyComponent extends React.Component {
     ],
   };
 
+  handleAddNewUser = (userObj) => {
+    console.log(userObj)
+    this.setState({
+      listUser: [ userObj, ...this.state.listUser]
+    })
+  };
   //JSX: Viết code JS trong code của HTML
   render() {
     //Video 24
 
     return (
       <div>
-        <UserInfor /> <br></br>
-        <DisplayInfor listUsers={this.state.listUser}/>
+        <AddUserInfor 
+        handleAddNewUser={this.handleAddNewUser}/> <br></br>
+        <DisplayInfor
+          listUsers={this.state.listUser}
+          
+        />
       </div>
     );
   }

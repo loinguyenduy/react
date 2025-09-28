@@ -1,4 +1,5 @@
 import React from "react";
+import './DisplayInfor.scss'
 
 class DisplayInfor extends React.Component {
   state = {
@@ -7,7 +8,7 @@ class DisplayInfor extends React.Component {
 
   handleShowHide = () => {
     this.setState({
-      isShowListUser: !this.state.isShowListUser //toggle: 
+      isShowListUser: !this.state.isShowListUser //toggle: Toán tử ! sẽ trả ra giá trị phủ định của biến dùng để show/hide
     })
   };
   render() {
@@ -18,7 +19,7 @@ class DisplayInfor extends React.Component {
     const { listUsers } = this.props;
     console.log(listUsers);
     return (
-      <div>
+      <div className='display-infor-container'>
         <div>
           <span
             onClick={() => {
@@ -35,7 +36,8 @@ class DisplayInfor extends React.Component {
               console.log("Check map user:", user);
 
               return (
-                <div key={user.id} className={+user.age > 18 ? "green" : "red"}>
+                // + để parse nhanh từ string to number
+                <div key={user.id} className={+user.age > 18 ? "green" : "red"}> 
                   <div>My name is {user.name} </div>
                   <div>My age is {user.age} </div>
                   <hr />
