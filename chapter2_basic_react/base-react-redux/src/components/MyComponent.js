@@ -20,20 +20,29 @@ class MyComponent extends React.Component {
       listUser: [userObj, ...this.state.listUser],
     });
   };
+
+  handleDeleteUser = (userId) => {
+    let getListUsers = this.state.listUser;
+    getListUsers = getListUsers.filter((item) => item.id !== userId); //userId: id need to delete
+    this.setState({
+      listUser: getListUsers,
+    });
+  };
   //JSX: Viết code JS trong code của HTML
   render() {
     //Video 24
 
     return (
       // fragment
-      <> 
+      <>
         <div className="a">
           <AddUserInfor handleAddNewUser={this.handleAddNewUser} /> <br></br>
-          <DisplayInfor listUsers={this.state.listUser} />
+          <DisplayInfor
+            listUsers={this.state.listUser}
+            handleDeleteUser={this.handleDeleteUser}
+          />
         </div>
-        <div className="b">
-
-        </div>
+        <div className="b"></div>
       </>
     );
   }
