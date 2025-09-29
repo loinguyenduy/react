@@ -1,5 +1,6 @@
 import React from "react";
 import './DisplayInfor.scss'
+import logo from './../logo.svg'
 
 class DisplayInfor extends React.Component {
   state = {
@@ -19,7 +20,9 @@ class DisplayInfor extends React.Component {
     const { listUsers } = this.props;
     console.log(listUsers);
     return (
+      
       <div className='display-infor-container'>
+        <img src={logo}/> 
         <div>
           <span
             onClick={() => {
@@ -30,7 +33,7 @@ class DisplayInfor extends React.Component {
           </span>
         </div>
         {this.state.isShowListUser && (
-          <div>
+          <>
             {/* Dùng map để lặp các phần tử trong object state, sẽ in ra 3 phần tử có trong object */}
             {listUsers.map((user, index) => {
               console.log("Check map user:", user);
@@ -44,7 +47,7 @@ class DisplayInfor extends React.Component {
                 </div>
               );
             })}
-          </div>
+          </>
         )}
       </div>
     );

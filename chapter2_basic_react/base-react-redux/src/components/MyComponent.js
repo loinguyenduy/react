@@ -15,24 +15,26 @@ class MyComponent extends React.Component {
   };
 
   handleAddNewUser = (userObj) => {
-    console.log(userObj)
+    console.log(userObj);
     this.setState({
-      listUser: [ userObj, ...this.state.listUser]
-    })
+      listUser: [userObj, ...this.state.listUser],
+    });
   };
   //JSX: Viết code JS trong code của HTML
   render() {
     //Video 24
 
     return (
-      <div>
-        <AddUserInfor 
-        handleAddNewUser={this.handleAddNewUser}/> <br></br>
-        <DisplayInfor
-          listUsers={this.state.listUser}
-          
-        />
-      </div>
+      // fragment
+      <> 
+        <div className="a">
+          <AddUserInfor handleAddNewUser={this.handleAddNewUser} /> <br></br>
+          <DisplayInfor listUsers={this.state.listUser} />
+        </div>
+        <div className="b">
+
+        </div>
+      </>
     );
   }
 }
