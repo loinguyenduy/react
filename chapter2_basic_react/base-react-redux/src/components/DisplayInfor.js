@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./DisplayInfor.scss";
 import logo from "./../logo.svg";
 
@@ -63,6 +63,15 @@ const DisplayInfor = (props) => {
     setShowHideListUser(!isShowHideListUser);
   }
   
+  console.log("call me render")
+
+  useEffect(() => {
+    if(listUsers.length === 0){
+      alert('List user is empty...')
+    }
+    console.log("call me effect")
+  }, [listUsers] // cần truyền tham số để effect chỉ chạy 1 lần
+)
   return (
     <div className="display-infor-container">
 
