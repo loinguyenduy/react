@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./DisplayInfor.scss";
 import logo from "./../logo.svg";
 
@@ -56,11 +56,23 @@ import logo from "./../logo.svg";
 
 const DisplayInfor = (props) => {
   const { listUsers } = props;
+
+  const [isShowHideListUser, setShowHideListUser] = useState(true);
+
+  const handleShowHideListUser = () => {
+    setShowHideListUser(!isShowHideListUser);
+  }
+  
   return (
     <div className="display-infor-container">
-      {/* <img src={logo}/>  */}
 
-      {true && (
+      <div>
+        <span onClick={() => handleShowHideListUser()}>
+          {isShowHideListUser === true ? "Hide list users" : "Show list users"}
+        </span>
+      </div>
+
+      {isShowHideListUser && (
         <>
           {/* Dùng map để lặp các phần tử trong object state, sẽ in ra 3 phần tử có trong object */}
           {listUsers.map((user, index) => {
