@@ -1,92 +1,142 @@
-import React from "react";
+import React, { useState } from "react";
 
-class AddUserInfor extends React.Component {
-    //state is object
-  state = {
-    name: "Loi",
-    address: "Hanoi",
-    age: 21,
-  };
+// class AddUserInfor extends React.Component {
+//     //state is object
+//   state = {
+//     name: "Loi",
+//     address: "Hanoi",
+//     age: 21,
+//   };
 
-  //handle event
-  handleClick = (event) => {
-    // console.log("Clicked me!")
-    console.log("My name is: ", this.state.name);
-    console.log("My age is: ", this.state.age);
+//   //handle event
+//   handleClick = (event) => {
+//     // console.log("Clicked me!")
+//     console.log("My name is: ", this.state.name);
+//     console.log("My age is: ", this.state.age);
 
-    //setState() to change state of object
-    this.setState({
-      name: "Eric",
-      age: Math.floor(Math.random() * 100 + 1),
-    });
-  };
+//     //setState() to change state of object
+//     this.setState({
+//       name: "Eric",
+//       age: Math.floor(Math.random() * 100 + 1),
+//     });
+//   };
 
-  handleOnMouseOver(event) {
-    console.log(event);
-  }
+//   handleOnMouseOver(event) {
+//     console.log(event);
+//   }
 
-  //Video 21
-  handleOnChange = (event) => {
-    this.setState({
-      name: event.target.value,
-    });
-  };
+//   //Video 21
+//   handleOnChange = (event) => {
+//     this.setState({
+//       name: event.target.value,
+//     });
+//   };
 
-    handleOnChangeAge = (event) => {
-      //bad code
-      //this.state.age = event.target.value
-    this.setState({
-      age: event.target.value,
-    });
-  };
+//     handleOnChangeAge = (event) => {
+//       //bad code
+//       //this.state.age = event.target.value
+//     this.setState({
+//       age: event.target.value,
+//     });
+//   };
 
-  handleOnSubmit = (event) => {
-    event.preventDefault(); //prevent reload page when submitting
-    // console.log(this.state);
+//   handleOnSubmit = (event) => {
+//     event.preventDefault(); //prevent reload page when submitting
+//     // console.log(this.state);
 
-    this.props.handleAddNewUser({
-      id: Math.floor((Math.random()*100) +1) + '-random',
-      name: this.state.name,
-      age: this.state.age
-    })
+//     this.props.handleAddNewUser({
+//       id: Math.floor((Math.random()*100) +1) + '-random',
+//       name: this.state.name,
+//       age: this.state.age
+//     })
+//   };
+  
+//   render(){
+//     return (
+//       <div>
+//         My name is {this.state.name} and I am {this.state.age}
+//         <br></br>
+//         <button onMouseOver={this.handleOnMouseOver}>Click over me</button>
+//         <br></br>
+//         <button onClick={this.handleClick}>Click me</button>
+//         {/* 
+//             onMouseOver: handle event that hover over button
+//             onClick: handle event that click to button
+//             onSubmit: handle event when user click submit or enter
+//             onChange: handle event user enter input
+//             preventDefault(): prevent reloading page */}
+
+//         <form onSubmit={(event) => this.handleOnSubmit(event)}>
+//           <label>Your name: </label>
+//           <input
+//             // fill name of state automatically
+//             value={this.state.name}
+//             type="text"
+//             onChange={(event) => this.handleOnChange(event)}
+//           ></input> <br></br>
+
+//           <label>Your age: </label>
+//           <input
+//             value={this.state.age}
+//             type="text"
+//             onChange={(event) => this.handleOnChangeAge(event)}
+//           ></input>
+
+//           <button>Submit</button>
+//         </form>
+//       </div>
+//     )
+//   }
+// }
+
+const AddUserInfor = (props) => {
+
+  const [name, setName] = useState('')
+  const [age, setAge] = useState('')
+
+  const handleOnChangeName = (event) => {
+    setName(event.target.value)
   };
   
-  render(){
-    return (
-      <div>
-        My name is {this.state.name} and I am {this.state.age}
-        <br></br>
-        <button onMouseOver={this.handleOnMouseOver}>Click over me</button>
-        <br></br>
-        <button onClick={this.handleClick}>Click me</button>
-        {/* 
-            onMouseOver: handle event that hover over button
-            onClick: handle event that click to button
-            onSubmit: handle event when user click submit or enter
-            onChange: handle event user enter input
-            preventDefault(): prevent reloading page */}
+  const handleOnChangeAge = (event) => {
+    setAge(event.target.value)
+  };
 
-        <form onSubmit={(event) => this.handleOnSubmit(event)}>
+  const handleOnSubmit = (event) => {
+    event.preventDefault(); 
+
+    props.handleAddNewUser({
+      id: Math.floor((Math.random()*100) +1) + '-random',
+      name: name,
+      age: age
+    })
+  };
+
+      return (
+      <div>
+        My name is {name} and I am {age}
+        <br></br>
+
+        <form onSubmit={(event) => handleOnSubmit(event)}>
           <label>Your name: </label>
           <input
             // fill name of state automatically
-            value={this.state.name}
+            value={name}
             type="text"
-            onChange={(event) => this.handleOnChange(event)}
+            onChange={(event) => handleOnChangeName(event)}
           ></input> <br></br>
 
           <label>Your age: </label>
           <input
-            value={this.state.age}
+            value={age}
             type="text"
-            onChange={(event) => this.handleOnChangeAge(event)}
+            onChange={(event) => handleOnChangeAge(event)}
           ></input>
 
           <button>Submit</button>
         </form>
       </div>
     )
-  }
 }
 
 export default AddUserInfor;
