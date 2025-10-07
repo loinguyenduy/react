@@ -1,18 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Admin from "./components/Admin/Admin";
+import User from "./components/User/User";
 
-
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     {/* <React.StrictMode> */}
-      <App />
+    <BrowserRouter>
+      <Routes>
+        {/* App is parent component and layout component for all child component */}
+        <Route path="/" element={<App />}> 
+          {/* Child component always render parent component (App).
+              Then it finds Outlet inside App to insert content of child component. */}
+          <Route path="/users" element={<User />} />
+          <Route path="/admins" element={<Admin />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+
     {/* </React.StrictMode> */}
   </Provider>
 );
