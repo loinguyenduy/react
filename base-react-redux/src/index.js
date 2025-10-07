@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Admin from "./components/Admin/Admin";
 import User from "./components/User/User";
+import HomePage from "./components/Home/HomePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +20,10 @@ root.render(
         <Route path="/" element={<App />}> 
           {/* Child component always render parent component (App).
               Then it finds Outlet inside App to insert content of child component. */}
+
+              {/* Index route is used to define the default child route. 
+                  Because it is same route "/" with component App, so we use it to render HomePage by default. */}
+          <Route index element={<HomePage />} />
           <Route path="/users" element={<User />} />
           <Route path="/admins" element={<Admin />} />
         </Route>
