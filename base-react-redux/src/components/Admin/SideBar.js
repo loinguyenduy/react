@@ -17,6 +17,9 @@ import {
   FaHeart,
 } from "react-icons/fa";
 import sidebarBg from "../../assets/bg2.jpg";
+import "./SideBar.scss";
+import {DiReact} from "react-icons/di";
+import {MdDashboard} from "react-icons/md";
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
@@ -42,6 +45,7 @@ const SideBar = (props) => {
               whiteSpace: "nowrap",
             }}
           >
+            <DiReact size={'3em'} color={'00bfff'}/>
             Hoi Dan IT
           </div>
         </SidebarHeader>
@@ -50,20 +54,22 @@ const SideBar = (props) => {
           <Menu iconShape="circle">
             <MenuItem
               icon={<FaTachometerAlt />}
-              suffix={<span className="badge red">New</span>}
+              // suffix={<span className="badge red">New</span>}
             >
               Dashboard
             </MenuItem>
-            <MenuItem icon={<FaGem />}> Components </MenuItem>
+            {/* <MenuItem icon={<FaGem />}> Components </MenuItem> */}
           </Menu>
           <Menu iconShape="circle">
             <SubMenu
-              suffix={<span className="badge yellow">3</span>}
-              icon={<FaRegLaughWink />}
+              // suffix={<span className="badge yellow">3</span>}
+              // icon={<FaRegLaughWink />}
+              icon={<FaGem />}
+              title="Features"
             >
-              <MenuItem> 1</MenuItem>
-              <MenuItem> 2</MenuItem>
-              <MenuItem> 3</MenuItem>
+              <MenuItem> Manage Users</MenuItem>
+              <MenuItem> Manage Quizzes</MenuItem>
+              <MenuItem> Manage Questions</MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
@@ -76,7 +82,7 @@ const SideBar = (props) => {
             }}
           >
             <a
-              href="https://github.com/azouaoui-med/react-pro-sidebar"
+              href="https://github.com/loinguyenduy"
               target="_blank"
               className="sidebar-btn"
               rel="noopener noreferrer"
@@ -89,7 +95,7 @@ const SideBar = (props) => {
                   overflow: "hidden",
                 }}
               >
-                viewSource
+                Nguyen Duy Loi
               </span>
             </a>
           </div>
