@@ -25,8 +25,8 @@ root.render(
                   Because it is same route "/" with component App, so we use it to render HomePage by default. */}
           <Route index element={<HomePage />} />
           <Route path="/users" element={<User />} />
-          <Route path="/admins" element={<Admin />} />
         </Route>
+        <Route path="/admins" element={<Admin />} />
       </Routes>
     </BrowserRouter>
 
