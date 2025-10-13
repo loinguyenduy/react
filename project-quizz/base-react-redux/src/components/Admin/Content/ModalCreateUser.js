@@ -2,8 +2,8 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FaPlusCircle } from "react-icons/fa";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { postCreateNewUser } from "../../../services/apiServices";
 
 const ModalCreateUser = (props) => {
   const { show, setShow } = props;
@@ -52,26 +52,18 @@ const ModalCreateUser = (props) => {
       toast.error("Invalid password");
       return;
     }
-    //call api create user
-    const data = new FormData();
-    data.append("email", email);
-    data.append("password", password);
-    data.append("username", username);
-    data.append("role", role);
-    data.append("userImage", image);
 
-    let res = await axios.post(
-      "http://localhost:8081/api/v1/participant",
-      data
-    );
-    console.log(">>> check res create user: ", res.data);
-    if(res.data && res.data.EC === 0){ //EC: error code
-      toast.success(res.data.EM);      //EM: error message
+    let data = await postCreateNewUser(email, password, username, role, image);
+
+    console.log("component response: ", data);
+
+    if (data && data.EC === 0) {
+      //EC: error code
+      toast.success(data.EM); //EM: error message
       handleClose();
     } else {
-      toast.error(res.data.EM);
+      toast.error(data.EM);
     }
-
   };
   return (
     <>
