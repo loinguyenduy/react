@@ -3,26 +3,36 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FaPlusCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { postCreateNewUser } from "../../../services/apiServices";
-import _ from "lodash"; // thư viện hỗ trợ thao tác với mảng, object
+import { putUpdateUser } from "../../../services/apiServices";
+import _, { set } from "lodash"; // thư viện hỗ trợ thao tác với mảng, object
 
 const ModalUpdateUser = (props) => {
   const { show, setShow, dataUpdate } = props;
   const handleClose = () => {
     setShow(false);
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    setRole("USER");
+    setImage("");
+    setPreviewImage("");
+    props.resetUpdateData();
   };
 
   useEffect(() => {
     console.log("run useEffect", dataUpdate);
-    if (!_.isEmpty(dataUpdate)) { //'_' để kiểm tra object có rỗng hay không
+    if (!_.isEmpty(dataUpdate)) {
+      //'_' để kiểm tra object có rỗng hay không
       //update state
       setEmail(dataUpdate.email);
-      setPassword(dataUpdate.password);
+      setPassword("");
       setUsername(dataUpdate.username);
       setRole(dataUpdate.role);
       setImage("");
-      if(dataUpdate.image){
-      setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`); //hình ảnh dạng base64
+
+      
+      if (dataUpdate.image) {
+        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`); //hình ảnh dạng base64
       }
     }
   }, [dataUpdate]);
@@ -40,30 +50,8 @@ const ModalUpdateUser = (props) => {
       setImage(event.target.files[0]);
     }
   };
-
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-
-  const handleSubmitCreateUser = async () => {
-    //validate
-    const isValidEmail = validateEmail(email);
-
-    if (!isValidEmail) {
-      toast.error("Invalid email");
-      return;
-    }
-
-    if (!password) {
-      toast.error("Invalid password");
-      return;
-    }
-
-    let data = await postCreateNewUser(email, password, username, role, image);
+  const handleSubmitUpdateUser = async () => {
+    let data = await putUpdateUser(dataUpdate.id, username, role, image);
 
     console.log("component response: ", data);
 
@@ -76,8 +64,6 @@ const ModalUpdateUser = (props) => {
       toast.error(data.EM);
     }
   };
-
-  console.log("check data update props: ", dataUpdate);
 
   return (
     <>
@@ -162,7 +148,7 @@ const ModalUpdateUser = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
+          <Button variant="primary" onClick={() => handleSubmitUpdateUser()}>
             Save Changes
           </Button>
         </Modal.Footer>
