@@ -15,7 +15,9 @@ const ModalDeleteUser = (props) => {
       //EC: error code
       toast.success(data.EM); //EM: error message
       handleClose();
-      await props.fetchListUsers();
+      // await props.fetchListUsers();
+      props.setCurrentPage(1);
+      await props.fetchListUsersWithPaginate(1); // Load lại danh sách user sau khi xóa
     } else {
       toast.error(data.EM);
     }
