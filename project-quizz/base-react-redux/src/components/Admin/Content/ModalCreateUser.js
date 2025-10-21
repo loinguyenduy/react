@@ -54,9 +54,6 @@ const ModalCreateUser = (props) => {
     }
 
     let data = await postCreateNewUser(email, password, username, role, image);
-
-    console.log("component response: ", data);
-
     if (data && data.EC === 0) {
       //EC: error code
       toast.success(data.EM); //EM: error message

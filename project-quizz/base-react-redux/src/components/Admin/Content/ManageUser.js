@@ -5,13 +5,21 @@ import TableUser from "./TableUser";
 import React, { useEffect, useState } from "react";
 import { getAllUsers } from "../../../services/apiServices";
 import ModalUpdateUser from "./ModalUpdateUser";
+import ModalViewUser from "./ModalViewUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 
 const ManageUser = (props) => {
   const [showModalCreateUser, setShowModalCreateUser] = useState(false);
   const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
   const [dataUpdate, setDataUpdate] = useState({}); // Lưu dữ liệu user cần update
 
-  const [listUsers, setListUsers] = useState([]);
+  const [showDetailUser, setShowDetailUser] = useState(false); // State hiển thị modal xem chi tiết user
+  const [dataView, setDataView] = useState({}); // Lưu dữ liệu user cần xem chi tiết
+
+  const [showModalDeleteUser, setShowModalDeleteUser] = useState(false); // State hiển thị modal xóa user
+  const [dataDelete, setDataDelete] = useState({}); // Lưu dữ liệu user cần xóa
+
+  const [listUsers, setListUsers] = useState([]); // Lưu danh sách user từ API
 
   useEffect(() => {
     fetchListUsers();
@@ -26,11 +34,25 @@ const ManageUser = (props) => {
 
   const handleClickBtnUpdate = (user) => {
     setShowModalUpdateUser(true);
-    setDataUpdate(user); 
+    setDataUpdate(user);
   };
 
   const resetUpdateData = () => {
     setDataUpdate({});
+  };
+
+  const resetViewData = () => {
+    setDataView({});
+  };
+
+  const handleClickBtnView = (user) => {
+    setShowDetailUser(true);
+    setDataView(user);
+  };
+
+  const handleClickBtnDelete = (user) => {
+    setShowModalDeleteUser(true);
+    setDataDelete(user);
   };
 
   return (
@@ -53,6 +75,8 @@ const ManageUser = (props) => {
           <TableUser
             listUsers={listUsers}
             handleClickBtnUpdate={handleClickBtnUpdate}
+            handleClickBtnView={handleClickBtnView}
+            handleClickBtnDelete={handleClickBtnDelete}
           />
         </div>
         <ModalCreateUser
@@ -66,6 +90,20 @@ const ManageUser = (props) => {
           dataUpdate={dataUpdate}
           fetchListUsers={fetchListUsers}
           resetUpdateData={resetUpdateData}
+        />
+
+        <ModalViewUser
+          show={showDetailUser}
+          setShow={setShowDetailUser}
+          dataView={dataView}
+          resetViewData={resetViewData}
+        />
+
+        <ModalDeleteUser
+          show={showModalDeleteUser}
+          setShow={setShowModalDeleteUser}
+          dataDelete={dataDelete}
+          fetchListUsers={fetchListUsers}
         />
       </div>
     </div>

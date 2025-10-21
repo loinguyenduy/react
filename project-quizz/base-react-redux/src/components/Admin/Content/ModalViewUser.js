@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 import { putUpdateUser } from "../../../services/apiServices";
 import _, { set } from "lodash"; // thư viện hỗ trợ thao tác với mảng, object
 
-const ModalUpdateUser = (props) => {
-  const { show, setShow, dataUpdate } = props;
+const ModalViewUser = (props) => {
+  const { show, setShow, dataView } = props;
   const handleClose = () => {
     setShow(false);
     setEmail("");
@@ -16,27 +16,26 @@ const ModalUpdateUser = (props) => {
     setRole("USER");
     setImage("");
     setPreviewImage("");
-    props.resetUpdateData();
+    props.resetViewData();
   };
 
-  //This function used to set data when open modal and run once when dataUpdate changes
+  //This function used to set data when open modal and run once when dataView changes
   useEffect(() => {
-    // console.log("run useEffect", dataUpdate);
-    if (!_.isEmpty(dataUpdate)) {
+    console.log("run useEffect", dataView);
+    if (!_.isEmpty(dataView)) {
       //'_' để kiểm tra object có rỗng hay không
       //update state
-      setEmail(dataUpdate.email);
+      setEmail(dataView.email);
       setPassword("");
-      setUsername(dataUpdate.username);
-      setRole(dataUpdate.role);
+      setUsername(dataView.username);
+      setRole(dataView.role);
       setImage("");
 
-      
-      if (dataUpdate.image) {
-        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`); //hình ảnh dạng base64
+      if (dataView.image) {
+        setPreviewImage(`data:image/jpeg;base64,${dataView.image}`); //hình ảnh dạng base64
       }
     }
-  }, [dataUpdate]);
+  }, [dataView]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,20 +50,7 @@ const ModalUpdateUser = (props) => {
       setImage(event.target.files[0]);
     }
   };
-  const handleSubmitUpdateUser = async () => {
-    let data = await putUpdateUser(dataUpdate.id, username, role, image);
 
-    console.log("component response: ", data);
-
-    if (data && data.EC === 0) {
-      //EC: error code
-      toast.success(data.EM); //EM: error message
-      handleClose();
-      await props.fetchListUsers();
-    } else {
-      toast.error(data.EM);
-    }
-  };
 
   return (
     <>
@@ -80,7 +66,7 @@ const ModalUpdateUser = (props) => {
         className="modal-add-user"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update a user</Modal.Title>
+          <Modal.Title>View a user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -111,6 +97,7 @@ const ModalUpdateUser = (props) => {
                 className="form-control"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
+                disabled={true}
               />
             </div>
             <div className="col-md-4">
@@ -119,13 +106,18 @@ const ModalUpdateUser = (props) => {
                 className="form-select"
                 value={role}
                 onChange={(event) => setRole(event.target.value)}
+                disabled={true}
               >
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
               </select>
             </div>
             <div className="col-md-12">
-              <label className="form-label label-upload" htmlFor="labelUpload">
+              <label
+                className="form-label label-upload"
+                htmlFor="labelUpload"
+                hidden={true} 
+              >
                 <FaPlusCircle /> Upload File Image
               </label>
               <input
@@ -149,13 +141,10 @@ const ModalUpdateUser = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleSubmitUpdateUser()}>
-            Save Changes
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default ModalUpdateUser;
+export default ModalViewUser;
