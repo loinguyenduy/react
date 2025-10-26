@@ -26,10 +26,21 @@ const getAllUsers = () => {
 };
 
 const deleteUser = (userId) => {
-  return axios.delete('api/v1/participant', {data: {id: userId}});
+  return axios.delete("api/v1/participant", { data: { id: userId } });
 };
 
 const getUserWithPaginate = (page, limit) => {
   return axios.get(`api/v1/participant?page=${page}&limit=${limit}`);
 };
-export { postCreateNewUser, getAllUsers, deleteUser, putUpdateUser, getUserWithPaginate };
+
+const postLogin = (email, password) => {
+  return axios.post("api/v1/login", { email, password });
+};
+export {
+  postCreateNewUser,
+  getAllUsers,
+  deleteUser,
+  putUpdateUser,
+  getUserWithPaginate,
+  postLogin,
+};
