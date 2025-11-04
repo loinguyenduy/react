@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { postLogin } from "../../services/apiServices";
 import { toast } from "react-toastify";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // thêm
-import {useDispatch} from "react-redux"; 
-import {doLogin} from "../../redux/action/userAction";
+import { useDispatch } from "react-redux";
+import { doLogin } from "../../redux/action/userAction";
+import { ImSpinner } from "react-icons/im";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
     return String(email)
@@ -36,7 +38,8 @@ const Login = () => {
       toast.error("Invalid password");
       return;
     }
- 
+    // this function to set loading when click button login
+    setIsLoading(true);
 
     //submit api
     let data = await postLogin(email, password);
@@ -44,21 +47,22 @@ const Login = () => {
     if (data && data.EC === 0) {
       dispatch(doLogin(data));
       toast.success(data.EM);
-      navigate("/");
+      setIsLoading(false);
+      // navigate("/");
     }
 
     if (data && +data.EC !== 0) {
       toast.error(data.EM);
+      setIsLoading(false);
     }
-
   };
   return (
     <div className="login-container">
       <div className="header">
         <span>Don't have an account yet?</span>
-        <button className="btn-signup"
-        onClick={() => navigate("/register")}
-        >Sign up</button>
+        <button className="btn-signup" onClick={() => navigate("/register")}>
+          Sign up
+        </button>
       </div>
       <div className="title col-4 mx-auto">HoiDanIT</div>
       <div className="welcome col-4 mx-auto">Hello, who's this?</div>
@@ -81,8 +85,13 @@ const Login = () => {
         </div>
         <span className="forgot-password">Forgot password?</span>
         <div>
-          <button className="btn-submit" onClick={() => handleLogin()}>
-            Login to HoiDanIT
+          <button
+            className="btn-submit"
+            onClick={() => handleLogin()}
+            disabled={isLoading}
+          >
+            {isLoading === true && <ImSpinner className="loader-icon" />}
+            <span> Login to HoiDanIT</span>{" "}
           </button>
         </div>
         <div className="text-center">
