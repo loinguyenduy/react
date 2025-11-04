@@ -4,19 +4,29 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate(); // Hook này cho phép chuyển hướng programmatically
 
   const handleLogin = () => {
     navigate("/login");
-  }
+  };
+
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
+  const account = useSelector((state) => state.user.account);
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         {/* <Navbar.Brand href="#home">Hoi Dan IT</Navbar.Brand> */}
-        <NavLink to="/" className="navbar-brand">Hoi Dan IT</NavLink>
+        <NavLink to="/" className="navbar-brand">
+          Hoi Dan IT
+        </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
@@ -39,15 +49,21 @@ const Header = () => {
           </Nav>
 
           <Nav>
-            <button className="btn-login"
-            onClick={() => handleLogin()}
-            >Login</button>
-            <button className="btn-signup">Sign up</button>
-            {/* <NavDropdown title="Settings" id="basic-nav-dropdown">
-              <NavDropdown.Item>Login</NavDropdown.Item>
-              <NavDropdown.Item>Log out</NavDropdown.Item>
-              <NavDropdown.Item>Profile</NavDropdown.Item>
-            </NavDropdown> */}
+            {isAuthenticated === false ? (
+              <>
+                <button className="btn-login" onClick={() => handleLogin()}>
+                  Login
+                </button>
+                <button className="btn-signup" onClick={() => handleRegister()}>
+                  Sign up
+                </button>
+              </>
+            ) : (
+              <NavDropdown title="Settings" id="basic-nav-dropdown">
+                <NavDropdown.Item>Log out</NavDropdown.Item>
+                <NavDropdown.Item>Profile</NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
