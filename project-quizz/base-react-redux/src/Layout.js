@@ -9,6 +9,7 @@ import Login from "./components/Auth/Login";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Register from "./components/Auth/Register";
+import ListQuiz from "./components/User/ListQuiz";
 
 const Layout = (props) => {
   return (
@@ -22,7 +23,7 @@ const Layout = (props) => {
           {/* Index route is used to define the default child route. 
                   Because it is same route "/" with component App, so we use it to render HomePage by default. */}
           <Route index element={<HomePage />} />
-          <Route path="/users" element={<User />} />
+          <Route path="/users" element={<ListQuiz />} />
         </Route>
 
         <Route path="admins" element={<Admin />}>
