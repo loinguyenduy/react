@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDataQuiz } from "../../services/apiServices";
+import _ from "lodash";
 
 const DetailQuiz = (props) => {
   const params = useParams();
@@ -9,16 +10,43 @@ const DetailQuiz = (props) => {
   useEffect(() => {
     //call api get detail quiz
     fetchQuestions();
-  }, [quizId])
+  }, [quizId]);
 
-  const fetchQuestions = async() => {
+  const fetchQuestions = async () => {
     //call api get question by quizId
     let res = await getDataQuiz(quizId);
     console.log(">>> check res data quiz: ", res);
-  }
 
-  return (
-    <div className="detail-quiz-container">detail quiz component</div>
-  )
-}
+    if (res && res.EC === 0) {
+      let raw = res.DT;
+      let data = _.chain(raw)
+        // Group the elements of Array based on `color` property
+        .filter(Boolean)
+        .groupBy("id")
+        // `key` is group's name (color), `value` is the array of objects
+        .map((value, key) => {
+          let answers = [];
+          let questionDescription, image = null;
+          value.forEach((item, index) => {
+            if (index === 0) {
+              questionDescription = item.description
+              image = item.image 
+            }
+            answers.push(item.answers);
+            console.log("item answers: ", item.answers);
+          });
+          console.log(">>> key ", key, "value: ", value);
+
+          return {
+            questionId: key,
+            answers, questionDescription, image
+          };
+        })
+        .value();
+      console.log(">>> check data group by questionId: ", data);
+    }
+  };
+
+  return <div className="detail-quiz-container">detail quiz component</div>;
+};
 export default DetailQuiz;
