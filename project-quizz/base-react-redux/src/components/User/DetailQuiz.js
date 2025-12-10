@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { getDataQuiz } from "../../services/apiServices";
 import _ from "lodash";
 import "./DetailQuiz.scss";
+import Question from "./Question";
 
 const DetailQuiz = (props) => {
   const params = useParams();
   const quizId = params.id;
   const location = useLocation();
-  console.log(location);
 
+  const [dataQuiz, setDataQuiz] = useState([]);
+  const [index, setIndex] = useState(0);
   useEffect(() => {
     //call api get detail quiz
     fetchQuestions();
@@ -36,6 +39,7 @@ const DetailQuiz = (props) => {
               questionDescription = item.description;
               image = item.image;
             }
+            // Sửa: item.answers có thể là object, cần spread vào array
             answers.push(item.answers);
             console.log("item answers: ", item.answers);
           });
@@ -50,9 +54,19 @@ const DetailQuiz = (props) => {
         })
         .value();
       console.log(">>> check data group by questionId: ", data);
+      setDataQuiz(data);
     }
   };
 
+  console.log("check data quiz:", dataQuiz);
+  const handlePrev = () => {
+    if (index - 1 < 0) return;
+    setIndex(index - 1);
+  };
+
+  const handleNext = () => {
+    if (dataQuiz && dataQuiz.length > index + 1) setIndex(index + 1);
+  };
   return (
     <div className="detail-quiz-container">
       <div className="left-content">
@@ -63,17 +77,19 @@ const DetailQuiz = (props) => {
         <div className="q-body">
           <img />
           <div className="q-content">
-            <div className="question"> Question 1: hOw are you doing </div>
-            <div className="answer">
-              <div className="a-child">A. abc </div>
-              <div className="b-child">B. avb </div>
-              <div className="c-child">C. asds </div>
-            </div>
+            <Question
+              index={index}
+              data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+            />
           </div>
         </div>
         <div className="footer">
-          <button className="btn btn-secondary">Prev</button>
-          <button className="btn btn-primary">Next</button>
+          <button className="btn btn-secondary" onClick={() => handlePrev()}>
+            Prev
+          </button>
+          <button className="btn btn-primary" onClick={() => handleNext()}>
+            Next
+          </button>
         </div>
       </div>
       <div className="right-content">count down</div>
