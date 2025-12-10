@@ -21,7 +21,6 @@ const DetailQuiz = (props) => {
   const fetchQuestions = async () => {
     //call api get question by quizId
     let res = await getDataQuiz(quizId);
-    console.log(">>> check res data quiz: ", res);
 
     if (res && res.EC === 0) {
       let raw = res.DT;
@@ -39,11 +38,10 @@ const DetailQuiz = (props) => {
               questionDescription = item.description;
               image = item.image;
             }
-            // Sửa: item.answers có thể là object, cần spread vào array
+            item.answers.isSelected = false;
             answers.push(item.answers);
-            console.log("item answers: ", item.answers);
+            // console.log("item answers: ", item.answers);
           });
-          console.log(">>> key ", key, "value: ", value);
 
           return {
             questionId: key,
@@ -53,7 +51,6 @@ const DetailQuiz = (props) => {
           };
         })
         .value();
-      console.log(">>> check data group by questionId: ", data);
       setDataQuiz(data);
     }
   };
@@ -67,6 +64,30 @@ const DetailQuiz = (props) => {
   const handleNext = () => {
     if (dataQuiz && dataQuiz.length > index + 1) setIndex(index + 1);
   };
+
+  const handleCheckbox = (answerId, questionId) => {
+    let dataQuizClone = _.cloneDeep(dataQuiz); //copy all object dataQuiz
+    let question = dataQuizClone.find(
+      (item) => +item.questionId === +questionId
+    );
+    if (question && question.answers) {
+      let b = question.answers.map((item) => {
+        if (item.id === +answerId) {
+          item.isSelected = !item.isSelected;
+        }
+        return item;
+      });
+      question.answers = b;
+      // console.log(b)
+    }
+    let index = dataQuizClone.findIndex(
+      (item => +item.questionId === +questionId)
+    );
+    if(index > -1){
+      dataQuizClone[index] = question
+      setDataQuiz(dataQuizClone)
+    }
+  };
   return (
     <div className="detail-quiz-container">
       <div className="left-content">
@@ -79,6 +100,7 @@ const DetailQuiz = (props) => {
           <div className="q-content">
             <Question
               index={index}
+              handleCheckbox={handleCheckbox}
               data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
             />
           </div>
@@ -89,6 +111,9 @@ const DetailQuiz = (props) => {
           </button>
           <button className="btn btn-primary" onClick={() => handleNext()}>
             Next
+          </button>
+          <button className="btn btn-warning" onClick={() => handleNext()}>
+            Finish
           </button>
         </div>
       </div>
