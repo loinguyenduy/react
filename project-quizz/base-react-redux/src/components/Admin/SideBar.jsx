@@ -20,9 +20,10 @@ import sidebarBg from "../../assets/bg2.jpg";
 import "./SideBar.scss";
 import {DiReact} from "react-icons/di";
 import {MdDashboard} from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = (props) => {
+  const navigate = useNavigate()
   const { image, collapsed, toggled, handleToggleSidebar } = props;
   return (
     <>
@@ -47,7 +48,7 @@ const SideBar = (props) => {
             }}
           >
             <DiReact size={'3em'} color={'00bfff'}/>
-            Hoi Dan IT
+            <span onClick={() => navigate('/')}>Hoi Dan IT</span>
           </div>
         </SidebarHeader>
 
@@ -72,7 +73,9 @@ const SideBar = (props) => {
               <MenuItem> Manage Users
               <Link to="/admins/manage-users"/>
               </MenuItem>
-              <MenuItem> Manage Quizzes</MenuItem>
+              <MenuItem> Manage Quizzes
+              <Link to="/admins/manage-quizzes"/>
+              </MenuItem>
               <MenuItem> Manage Questions</MenuItem>
             </SubMenu>
           </Menu>
@@ -99,7 +102,8 @@ const SideBar = (props) => {
                   overflow: "hidden",
                 }}
               >
-                Nguyen Duy Loi
+                
+                Hoi Dan IT
               </span>
             </a>
           </div>
