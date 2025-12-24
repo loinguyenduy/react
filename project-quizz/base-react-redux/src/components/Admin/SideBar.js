@@ -18,12 +18,12 @@ import {
 } from "react-icons/fa";
 import sidebarBg from "../../assets/bg2.jpg";
 import "./SideBar.scss";
-import {DiReact} from "react-icons/di";
-import {MdDashboard} from "react-icons/md";
+import { DiReact } from "react-icons/di";
+import { MdDashboard } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 const SideBar = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { image, collapsed, toggled, handleToggleSidebar } = props;
   return (
     <>
@@ -47,8 +47,8 @@ const SideBar = (props) => {
               whiteSpace: "nowrap",
             }}
           >
-            <DiReact size={'3em'} color={'00bfff'}/>
-            <span onClick={() => navigate('/')}>Hoi Dan IT</span>
+            <DiReact size={"3em"} color={"00bfff"} />
+            <span onClick={() => navigate("/")}>Hoi Dan IT</span>
           </div>
         </SidebarHeader>
 
@@ -59,7 +59,7 @@ const SideBar = (props) => {
               // suffix={<span className="badge red">New</span>}
             >
               Dashboard
-              <Link to="/admins"/>
+              <Link to="/admins" />
             </MenuItem>
             {/* <MenuItem icon={<FaGem />}> Components </MenuItem> */}
           </Menu>
@@ -70,13 +70,21 @@ const SideBar = (props) => {
               icon={<FaGem />}
               title="Features"
             >
-              <MenuItem> Manage Users
-              <Link to="/admins/manage-users"/>
+              <MenuItem>
+                {" "}
+                Manage Users
+                <Link to="/admins/manage-users" />
               </MenuItem>
-              <MenuItem> Manage Quizzes
-              <Link to="/admins/manage-quizzes"/>
+              <MenuItem>
+                {" "}
+                Manage Quizzes
+                <Link to="/admins/manage-quizzes" />
               </MenuItem>
-              <MenuItem> Manage Questions</MenuItem>
+              <MenuItem>
+                {" "}
+                Manage Questions
+                <Link to="/admins/manage-questions" />
+              </MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
@@ -102,7 +110,6 @@ const SideBar = (props) => {
                   overflow: "hidden",
                 }}
               >
-                
                 Hoi Dan IT
               </span>
             </a>
