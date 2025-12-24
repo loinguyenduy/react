@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ManageQuiz.scss";
 import Select from "react-select";
 import { postCreateNewQuiz } from "../../../../services/apiServices";
 import { toast } from "react-toastify";
 import TableQuiz from "./TableQuiz";
 import Accordion from "react-bootstrap/Accordion";
+import ModalEditQuiz from "./ModalEditQuiz";
+import { getAllQuizForAdmin } from "../../../../services/apiServices";
+import ModalDeleteQuiz from "./ModalDeleteQuiz";
 
 const options = [
   { value: "EASY", label: "EASY" },
@@ -12,14 +15,32 @@ const options = [
   { value: "HARD", label: "HARD" },
 ];
 const ManageQuiz = (props) => {
+  const [listQuiz, setListQuiz] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [image, setImage] = useState(null);
 
+  const [showModalEditQuiz, setShowModalEditQuiz] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState({});
+
+  const [showModalDeleteQuiz, setShowModalDeleteQuiz] = useState(false);
+  const [dataDelete, setDataDelete] = useState({});
+
   const handleChangeFile = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
       setImage(event.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const fetchQuiz = async () => {
+    let res = await getAllQuizForAdmin();
+    if (res && res.EC === 0) {
+      setListQuiz(res.DT);
     }
   };
 
@@ -29,18 +50,33 @@ const ManageQuiz = (props) => {
       toast.error("Name/Description is required!");
       return;
     }
-    let res = await postCreateNewQuiz(description, name, type?.value, image);
+    let res = await postCreateNewQuiz(name, description, type?.value, image);
     if (res && res.EC === 0) {
       toast.success(res.EM);
       setName("");
       setDescription("");
       setImage(null);
+      await fetchQuiz();
     } else {
       toast.error(res.EM);
     }
   };
+
+  const handleClickBtnEdit = (quiz) => {
+    setShowModalEditQuiz(true);
+    setDataUpdate(quiz);
+  };
+
+  const resetUpdateData = () => {
+    setDataUpdate({});
+  };
+
+  const handleClickBtnDeleteQuiz = (quiz) => {
+    setShowModalDeleteQuiz(true);
+    setDataDelete(quiz);
+  };
+
   return (
-    
     <div className="quiz-container">
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
@@ -49,6 +85,7 @@ const ManageQuiz = (props) => {
             <div className="add-new">
               <fieldset className="border rounded-3 p-3">
                 <legend className="float-none w-auto px-3">Add new Quiz</legend>
+
                 <div class="form-floating mb-3">
                   <input
                     type="text"
@@ -98,9 +135,30 @@ const ManageQuiz = (props) => {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+
       <div className="list-detail">
-        <TableQuiz />
+        <TableQuiz
+          handleClickBtnEdit={handleClickBtnEdit}
+          listQuiz={listQuiz}
+          fetchQuiz={fetchQuiz}
+          handleClickBtnDeleteQuiz={handleClickBtnDeleteQuiz}
+        />
       </div>
+
+      <ModalEditQuiz
+        show={showModalEditQuiz}
+        setShow={setShowModalEditQuiz}
+        dataUpdate={dataUpdate}
+        resetUpdateData={resetUpdateData}
+        fetchQuiz={fetchQuiz}
+      />
+
+      <ModalDeleteQuiz
+      show={showModalDeleteQuiz}
+      setShow={setShowModalDeleteQuiz}
+      dataDelete={dataDelete}
+      fetchQuiz={fetchQuiz}
+      />
     </div>
   );
 };
