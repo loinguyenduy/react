@@ -1,6 +1,8 @@
 import "./App.scss";
 import Header from "./components/Header/Header";
 import { Link, Outlet } from "react-router-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
+
 
 /*
 This component is layout component for all child component (User, Admin), contains header, main, side bar.
@@ -16,7 +18,9 @@ const App = () => {
       <div className="main-container"></div>
       <div className="sidenav-container"></div>
       <div className="app-content">
-        <Outlet/>
+        <PerfectScrollbar>
+            <Outlet />
+          </PerfectScrollbar>
       </div>
     </div>
   );
