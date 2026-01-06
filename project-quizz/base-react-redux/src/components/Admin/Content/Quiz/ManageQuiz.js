@@ -8,6 +8,8 @@ import Accordion from "react-bootstrap/Accordion";
 import ModalEditQuiz from "./ModalEditQuiz";
 import { getAllQuizForAdmin } from "../../../../services/apiServices";
 import ModalDeleteQuiz from "./ModalDeleteQuiz";
+import QuizQA from "./QuizQA";
+import AssignQuiz from "./AssignQuiz";
 
 const options = [
   { value: "EASY", label: "EASY" },
@@ -132,18 +134,31 @@ const ManageQuiz = (props) => {
                 </div>
               </fieldset>
             </div>
+            <div className="list-detail">
+              <TableQuiz
+                handleClickBtnEdit={handleClickBtnEdit}
+                listQuiz={listQuiz}
+                fetchQuiz={fetchQuiz}
+                handleClickBtnDeleteQuiz={handleClickBtnDeleteQuiz}
+              />
+            </div>
+          </Accordion.Body>
+        </Accordion.Item>
+
+        <Accordion.Item eventKey="1">
+          <Accordion.Header>Update Q/A Quizzes</Accordion.Header>
+          <Accordion.Body>
+            <QuizQA/>
+          </Accordion.Body>
+        </Accordion.Item>
+
+              <Accordion.Item eventKey="3">
+          <Accordion.Header>Assign to Users</Accordion.Header>
+          <Accordion.Body>
+            <AssignQuiz/>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-
-      <div className="list-detail">
-        <TableQuiz
-          handleClickBtnEdit={handleClickBtnEdit}
-          listQuiz={listQuiz}
-          fetchQuiz={fetchQuiz}
-          handleClickBtnDeleteQuiz={handleClickBtnDeleteQuiz}
-        />
-      </div>
 
       <ModalEditQuiz
         show={showModalEditQuiz}
@@ -154,10 +169,10 @@ const ManageQuiz = (props) => {
       />
 
       <ModalDeleteQuiz
-      show={showModalDeleteQuiz}
-      setShow={setShowModalDeleteQuiz}
-      dataDelete={dataDelete}
-      fetchQuiz={fetchQuiz}
+        show={showModalDeleteQuiz}
+        setShow={setShowModalDeleteQuiz}
+        dataDelete={dataDelete}
+        fetchQuiz={fetchQuiz}
       />
     </div>
   );
